@@ -1,3 +1,6 @@
+# 프로젝트하면서 배운 점들 
+
+
 ### useCallback (hooks)
 > 같은 component에 있으면 id만 input을 바꿔도 모든 폼 부분이 리렌더링 된다. 
 > 서로 input 간에 Rerendering 막기 최적화 할수는 있지만 (좀 과하다, 너무시간 오래걸려)
