@@ -44,30 +44,7 @@ const Signup = () => {
     }
   }, [password, passwordCheck, term]); //함수 내부에서 쓰는 state 를 deps 배열로 넣기.
 
-  //배열 안에 password, check, term 를 넣게 되면 인풋 내용이 바뀌거나 새로운 항목이 추가 될 때마다 함수가 생성됩니다.
-  //기존의 pw, pwchk, term을 조회해야 하기 때문에 배열안에 넣어줘야.(dependency)
 
-  //원칙: props 로 넘겨주는 함수는 useCallback 필수!
-
-  /* 컴포넌트가 리렌더링 될 때마다 이 함수들이 새로 생성됩니다. 
-  대부분의 경우에는 이러한 방식이 문제가 되지 않지만, 
-  컴포넌트의 렌더링이 자주 발생하거나, 렌더링 해야 할 컴포넌트의 개수가 많아진다면 
-  이 부분을 최적화 해주시는 것이 좋다. */
-
-  /* 둘은 같은 함수
-        useCallback(() => {
-        console.log('hello world!');
-        }, [])
-
-        비어있는 배열을 넣게 되면 컴포넌트가 렌더링 될 때 단 한번만 함수가 생성
-
-        useMemo(() => {
-        const fn = () => {
-            console.log('hello world!');
-        };
-        return fn;
-        }, [])
-  */
 
   const onChangePasswordCheck = useCallback((e) => {
     setPasswordError(e.target.value !== password);
