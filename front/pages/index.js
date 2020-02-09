@@ -27,5 +27,6 @@ const Home = () => {
     </div>
   );
 };
-
+//리액트 조건문, 리액트 반복문, 리액트 폼들은 주로 component를 분리해야한다!!!**** 
+//ex) PostCard(반복문) PostForm(조건문)
 export default Home;

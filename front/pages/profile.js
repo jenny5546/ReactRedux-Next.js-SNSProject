@@ -19,6 +19,7 @@ const Profile = () => {
             <Card actions={[<Icon key="stop" type="stop" />]}><Card.Meta description={item} /></Card>
           </List.Item>
         )}
+        // 배열 안에 반복문을 넣을 때, key를 꼭 넣어야한다.
       />
       <List
         style={{ marginBottom: '20px' }}

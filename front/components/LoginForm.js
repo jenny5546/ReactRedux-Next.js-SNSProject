@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { Button, Form, Input } from 'antd';
 import Link from 'next/link';
-import { useInput } from '../pages/signup'; // TODO: util 폴더로 옮기기
+import { useInput } from '../pages/signup'; //다른 파일에서 함수를 들고 올 수 있다 
 
 const LoginForm = () => {
   const [id, onChangeId] = useInput('');

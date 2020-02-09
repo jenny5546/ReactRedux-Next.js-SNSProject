@@ -23,13 +23,15 @@ const AppLayout = ({ children }) => {
           <Input.Search enterButton style={{ verticalAlign: 'middle' }} />
         </Menu.Item>
       </Menu>
-      <Row gutter={8}>
-        <Col xs={24} md={6}>
+      <Row gutter={8}> {/* row 간 간격 = gutter */}
+      {/* 로그인이 되어있으면, userprofile, 아니면 form 삼항연산자 */}
+      {/* xs: mobile md: desktop */}
+        <Col xs={24} md={6}> 
           {dummy.isLoggedIn
             ? <UserProfile />
-            : <LoginForm />}
+            : <LoginForm />}  
         </Col>
-        <Col xs={24} md={12}>
+        <Col xs={24} md={12}> 
           {children}
         </Col>
         <Col xs={24} md={6}>

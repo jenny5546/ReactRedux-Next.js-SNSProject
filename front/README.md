@@ -39,3 +39,10 @@
 #### _error.js  :배포하기 직전에는 customizing 할 필요는 딱히 없다. 
 
 
+###Grid System (Ant Design에서나 bootstrap 에서나 널리활용)
+
+xs: mobile 화면 
+md: 넓은 desktop 화면 
+
+xs: {24}, md={6} 이라고 하면 작은 화면에서는 한 줄 다 차지하게, 
+넓은 화면에서는 4개씩 보이게끔 하게 만든 다는 뜻. 
