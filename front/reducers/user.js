@@ -77,6 +77,7 @@ export default (state = initialState, action) => {
             return {
                 ...state,
             }
-        }
+        } //오타, 아무 것도 안할 때 (로깅 그냥 해보거나 이럴때 ) 실행된다.
+        //리덕스 원칙 상 '불변성'을 지켜주는게 그래서 좋다.
     }
 };

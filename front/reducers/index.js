@@ -11,3 +11,4 @@ export default rootReducer;
 
 
 // user reducer + post reducer => root reducer 로 합침.
+// 중앙 통제실처럼 동작하게 된다. 
