@@ -58,6 +58,10 @@ xs: {24}, md={6} 이라고 하면 작은 화면에서는 한 줄 다 차지하�
         ...
 
     }-> 'store'
+
+    store를 그렇다고 다 합칠 필요는 없고, 여러개로 쪼개서 root store를 하나 두어도된다. 
+    index.js, post.js, user.js 이렇게 여러개 의 store를 쪼개도 된다.
+    
     하나의 state를 여러 component들에게 분배하는 역할을 하는게 : Redux 
     redux 자체가 state역할을 하기 때문에, 리액트의 state를 대체할 수는 있긴하나 보통 같이 씀. 
     왜냐면 리덕스 state가 복잡해서 간단한건 react state를 쓴다. 
@@ -71,5 +75,8 @@ xs: {24}, md={6} 이라고 하면 작은 화면에서는 한 줄 다 차지하�
     4. Reducer -> Action의 결과로 state를 어떻게 바꿀지 정의하는 부분.  
     ex) 로그인액션 dispatch시 isLoggedIn state를 true로 바꾸겠다! 선언 
 
+-> State 구조 잡는건 경험이 많이 쌓여야 잘 잡을 수 있다. 
 
 > 리덕스를 뷰에도 쓸 수 있고, 서버 node에도 쓸 수가 있음. 리액트와는 별개로 (리액트에서 제일 많이쓰이긴하지만)쓰일 수 있다는 것!
+
+> 단점: 코드가 장황해진다, state, action, reducer 다 정의해야한다. 
