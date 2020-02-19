@@ -21,6 +21,7 @@ export const LOG_IN_FAILURE = 'LOG_IN_FAILURE'; // 액션의 이름
 export const LOG_OUT = 'LOG_OUT';
 
 
+//action에 넣을 데이터가 동적인 경우에는, action을 함수로 만들어야한다.
 export const signUpAction = (data) => {
     return {
         type: SIGN_UP,

@@ -1,18 +1,24 @@
 import React, { useState, useCallback } from 'react';
 import { Form, Input, Checkbox, Button } from 'antd';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
+import { signUpAction } from '../reducers/user';
 
 //같은 component에 있으면 id만 input을 바꿔도 모든 폼 부분이 리렌더링 된다. 
 //서로 input 간에 Rerendering 막기 최적화 할수는 있지만 (좀 과하다, 너무시간 오래걸려)
-const TextInput = ({ value }) => {
-  return (
-    <div>{value}</div>
-  )
-};
+// const TextInput = ({ value }) => {
+//   return (
+//     <div>{value}</div>
+//   )
+// };
 
-TextInput.propTypes = {
-  value: PropTypes.string,
-};
+// TextInput.propTypes = {
+//   value: PropTypes.string,
+// };
+
+
+//form 같은애들은 react state 쓰는게 편하고
+//여러 컴포넌트가 같이 쓰는 애들, submit 누르면 redux state로 한방에 처리해주는 걸로 보통 쓴다. **
 
 export const useInput = (initValue = null) => {
   const [value, setter] = useState(initValue);
@@ -32,6 +38,7 @@ const Signup = () => {
   const [id, onChangeId] = useInput('');
   const [nick, onChangeNick] = useInput('');
   const [password, onChangePassword] = useInput('');
+  const dispatch = useDispatch();
 
   //USECALLBACK 함수 ****
   const onSubmit = useCallback((e) => {
@@ -42,6 +49,11 @@ const Signup = () => {
     if (!term) {
       return setTermError(true);
     }
+    dispatch(signUpAction({
+      id,
+      password,
+      nick,
+    }));
   }, [password, passwordCheck, term]); //함수 내부에서 쓰는 state 를 deps 배열로 넣기.
 
 
@@ -59,7 +71,6 @@ const Signup = () => {
   return (
     <>
       <Form onSubmit={onSubmit} style={{ padding: 10 }}>
-        <TextInput value="135135" />
         <div>
           <label htmlFor="user-id">아이디</label>
           <br />
@@ -78,17 +89,11 @@ const Signup = () => {
         <div>
           <label htmlFor="user-password-check">비밀번호체크</label>
           <br />
-          <Input
-            name="user-password-check"
-            type="password"
-            value={passwordCheck}
-            required
-            onChange={onChangePasswordCheck}
-          />
+          <Input name="user-password-check" type="password" value={passwordCheck} required onChange={onChangePasswordCheck} />
           {passwordError && <div style={{ color: 'red' }}>비밀번호가 일치하지 않습니다.</div>}
         </div>
         <div>
-          <Checkbox name="user-term" checked={term} onChange={onChangeTerm}>제로초 말을 잘 들을 것을 동의합니다.</Checkbox>
+          <Checkbox name="user-term" value={term} onChange={onChangeTerm}>제로초 말을 잘 들을 것을 동의합니다.</Checkbox>
           {termError && <div style={{ color: 'red' }}>약관에 동의하셔야 합니다.</div>}
         </div>
         <div style={{ marginTop: 10 }}>
