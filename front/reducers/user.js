@@ -33,6 +33,7 @@ export const signUpSuccess = {
 };
 
 export const loginAction = (data) => {
+    
     return {
         type: LOG_IN,
         data,
@@ -41,12 +42,15 @@ export const loginAction = (data) => {
 
 export const logoutAction = {
     type: LOG_OUT,
-    };
-    export const signUp = (data) => {
-        return {
-            type: SIGN_UP,
-            data,
-        }
+};
+
+export const signUp = (data) => {
+
+    return {
+        type: SIGN_UP,
+        data,
+    }
+
 };
 
 //REDUCER

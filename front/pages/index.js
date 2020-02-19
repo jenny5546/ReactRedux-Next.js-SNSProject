@@ -21,7 +21,8 @@ const dummy = {
 
 const Home = () => {
   const dispatch = useDispatch(); //action은 usedispatch로 (setState는 usedispatch로 바뀌었다고 생각해도 된다.)
-  const { isLoggedIn, user } = useSelector(state => state.user); //redux state갖다쓰는거는 (useState= useSelector)
+  const { user, isLoggedIn } = useSelector(state => state.user); //redux state갖다쓰는거는 (useState= useSelector)
+  //계속 바뀌면 리렌더링을 해주기 때문에 최대한 잘게 짤라주는게 좋다. 
   const { mainPosts } = useSelector(state => state.post);
   useEffect(()=>{
     dispatch(loginAction);
