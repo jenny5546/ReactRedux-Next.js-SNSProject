@@ -17,7 +17,7 @@ import { signUpAction } from '../reducers/user';
 // };
 
 
-//form 같은애들은 react state 쓰는게 편하고
+//form 같은애들은 react state 쓰는게 편하고!!
 //여러 컴포넌트가 같이 쓰는 애들, submit 누르면 redux state로 한방에 처리해주는 걸로 보통 쓴다. **
 
 export const useInput = (initValue = null) => {
