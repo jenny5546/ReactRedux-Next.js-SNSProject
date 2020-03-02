@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-filename-extension */
 import React from 'react';
 import Head from 'next/head';
 import PropTypes from 'prop-types';

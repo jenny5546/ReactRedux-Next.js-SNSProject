@@ -8,6 +8,8 @@ import {
   ADD_POST_SUCCESS,
 } from '../reducers/post';
 
+
+// POST 부분
 function addPostAPI() {
 
 }
@@ -30,6 +32,7 @@ function* watchAddPost() {
   yield takeLatest(ADD_POST_REQUEST, addPost);
 }
 
+// COMMENT 부분
 function addCommentAPI() {
 
 }

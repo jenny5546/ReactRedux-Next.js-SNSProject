@@ -119,6 +119,7 @@ export default (state = initialState, action) => {
     }
     case ADD_COMMENT_SUCCESS: {
       const postIndex = state.mainPosts.findIndex(v => v.id === action.data.postId);
+      // 불변성이라는 원칙을 지키기 위해 이렇게 3줄로..
       const post = state.mainPosts[postIndex];
       const Comments = [...post.Comments, dummyComment];
       const mainPosts = [...state.mainPosts];

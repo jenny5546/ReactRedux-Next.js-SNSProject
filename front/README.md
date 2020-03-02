@@ -29,6 +29,39 @@
         return fn;
         }, [])
   
+### useEffect 복습
+
+componentDidMount와 componentDidUpdate는 로직이 분리되어 있다. 그래서 만약 위의 카운터에서, 최초 렌더링 시에도 count를 표시하고 싶고, 이 후 스테이트가 업데이트될 때에도 count를 갱신하고 싶으면 두 메서드를 다 사용해야 한다.즉 최초든 업데이트 이후든 렌더링 될 때마다 수행하고 싶은 작업이 있을 때에 기존의 라이프사이클 메서드를 사용하면 중복이 생긴다.
+
+-> useEffect hook은 이거를 해결해준다! 
+```javascript
+import React, { useState, useEffect } from "react";
+
+const Example = () => {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    document.title = `You clicked ${count} times`;
+  });
+
+  return (
+    <div>
+      <p>You clicked {count} times</p>
+      <button onClick={() => setCount(count + 1)}>Click Me</button>
+    </div>
+  );
+};
+export default Example;
+
+```
+
+여기서는 useEffect외에도 함수형 컴포넌트 내에서 스테이트를 가질 수 있게 해주는 useState도 사용했다.
+
+useEffect를 사용하면 every render 마다 원하는 작업을 수행할 수 있어 코드를 중복할 필요가 없다.
+
+useEffect를 사용하는 방법은 위 코드처럼, 내가 원하는 effect (여기서는 도큐먼트 타이틀을 바꾸는 것) function을 패스해주면 된다. 여기서는 타이틀을 바꾸는 데 사용했지만, 필수적인 API를 불러오거나 data를 fetch할 때 사용할 수도 있을 것이다.
+
+useState를 사용하여 contents 상태를 업데이트하고, useEffect를 사용해서 리액트는 contents의 변화를 감지한다. contents의 변화가 감지되면 useEffect는 콜백함수를 실행하여 리렌더링하는데, 이 함수의 내용은 textarea의 높이를 자동조절 하는 것이다. textarea의 크기를 조절하는 것은 createRef를 사용해서 DOM 객체에 직접 접근해 변경했다. (textarea의 ref 속성)
 
 ### Next.js에서 파일 구조
 
@@ -178,3 +211,15 @@ Redux는 login action이 있으면 바로 실행해버린다.
 ##### yield fork, call 의 차이 
 
 > fork는 순서가 상관없을 떄, call은 순서가 상관있을 때, 예를 들어 call은 요청을 서버에 보내서 그게 돌아와야 실행할 수 있을때 call을 쓰고, fork는 그냥 이벤트 리스너처럼 쓸 때 그럴때 주로 쓴다. ! (아예 fork를 안써도 사실 문제없이 돌아감.)
+
+cf) nextRouter로 페이지 이동방법? 
+signup.js에서 어떻게 했냐면 
+
+    useEffect(() => {
+        if (me) {
+        alert('로그인했으니 메인페이지로 이동합니다.');
+        Router.push('/'); // Link 말고 이런식으로도 가능
+        }
+    }, [me && me.id]);
+
+> 이런식으로 Router.push('/')를 해줄 수 있다 

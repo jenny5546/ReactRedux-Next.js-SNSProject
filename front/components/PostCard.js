@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-filename-extension */
 import React, { useState, useCallback, useEffect } from 'react';
 import { Card, Icon, Button, Avatar, Form, Input, List, Comment } from 'antd';
 import PropTypes from 'prop-types';
