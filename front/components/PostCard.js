@@ -28,10 +28,13 @@ const PostCard = ({ post }) => {
       },
     });
   }, [me && me.id]);
+  // useCallback 이 되게 기억력이 강력해서 me를 업데이트를 안해줄수있어서 꼮 me도 넣어준다
 
   useEffect(() => {
     setCommentText('');
   }, [commentAdded === true]);
+
+  // useEffect: ~할때 초기화, ~할때 동작수행 이럴때 주로 쓴다!!
 
   const onChangeCommentText = useCallback((e) => {
     setCommentText(e.target.value);
