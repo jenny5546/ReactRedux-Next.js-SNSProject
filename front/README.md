@@ -83,3 +83,98 @@ xs: {24}, md={6} 이라고 하면 작은 화면에서는 한 줄 다 차지하�
 
 
 > 근데 이제 리액트 context api 가 생겨서 리덕스 안 써도 됨. 나중에 인강듣기 : https://academy.nomadcoders.co/p/antiredux-new-react-context-api
+
+
+Redux 의 기능을 확장해야한다. 
+middleware를 수정해서 비동기 요청도 들어갈 수 있게해준다. 
+-> Redux Saga를 쓰자. 
+
+### Redux Saga 
+
+> Redux는 동기적인 요청만 가능, 비동기를 끼워넣기 위해서!
+
+generator: 함수 실행을 중간에 멈출 수 있고, 다시 재개할 수 있어서 쓴다. 
+제네레이터가 너무 어렵다면, 사가도 패턴이 있어서 패턴대로만 하면 된다. 
+
+
+Redux는 login action이 있으면 바로 실행해버린다.
+
+그런데 saga는 login action이 실행되는지 대기하고 있다가, 비동기동작을 
+실행하고, 그게 success인지 failure인지 실행해주는 구조. 
+
+> generator는 함수 실행을 중간에 멈출 수 있고 기존 컴포넌트에 props같은것을 추가할 수 있다. function 옆에 별표하나 찍어주는 것.
+
+#### Generator
+
+```javascript
+
+    function* generator(){
+        console.log(1);
+        console.log(2);
+        yield;
+        console.log(3);
+    }
+    const gen= generator();
+
+    //실행을 할 때는 gen.next()로 실행
+    /* output 
+
+    1
+    2
+    ----또 gen.next() 부르면 
+    3
+    */
+   
+
+```
+같은 것: yield 1; yield 2; yield 3; yield 4; === yield [1,2,3,4]
+
+> async await 을 async yield로 하기로 했다. 그러니까 await = yield. 그런데 더 강력하다 yield, 중단하고 재개할 수 있어서 되게 강력. 더 할 수 있는게 많다. yield로 중단점을 만들고 next()로 재개할 수 있는 것. 
+
+```javascript
+    function* generator(){
+        let i =0; 
+        while (true){
+            yield i++;
+        }
+    }
+```
+> while true 를 썼는데도 yield를 눌러서 무한반복문을 막을 수 있다. 
+
+
+** SAGA는 알아서 next를 실행해준다. **
+
+참고) 
+```javascript
+    function* helloSaga(){
+        console.log('before saga');
+        while (true){
+            yield take(HELLO_SAGA);
+            console.log('after saga');
+        }
+    }
+```
+이 함수에서 component가 HELLO_SAGA를 dispatch해주면 eventlistener처럼 작동한다. 'yield take'은 HELLO_SAGA라는 액션이 들어오면 저거를 재개해준다는 뜻인데, 만약 3번이나 dispatch를 해줘도 한번만 실행되는 이유? while true가 없으면 그냥 끝나버릭기때문. 그래서 저렇게 매번 실행될때마다 하게 해주려면 while true를 넣어줘야한다. 무한히 이 액션을 listen 해주려면 저거를추가해주자!!!!
+
+
+그런데 항상 while true를 하면 좀 안예뻐보임. 
+그래서 takeevery랑 takelatest를 쓰자! 
+
+1. takeEvery 
+    yield takeEvery( action , generator 함수) {
+        yield delay(1000);
+        yield put({
+            type: "BYE"
+        })
+    }
+    
+2. takeLatest 
+    동시에 여러번 액션을 실행하면 마지막꺼만 실행해라, 그래서 takeEvery와 달리 
+    bye를 한번만 실행시켜준다. 마지막 액션만, 로그인도 마지막것만 실행하려면 takelatest를 쓰면된다. 
+
+-> 동시에 실행될때 모든게 유효하면 takeEvery, 만약아니라면 takeLatest. 예를 들어 잘못 두번 누르면 마지막만 실행시키는. 그런 느낌. 
+
+
+##### yield fork, call 의 차이 
+
+> fork는 순서가 상관없을 떄, call은 순서가 상관있을 때, 예를 들어 call은 요청을 서버에 보내서 그게 돌아와야 실행할 수 있을때 call을 쓰고, fork는 그냥 이벤트 리스너처럼 쓸 때 그럴때 주로 쓴다. ! (아예 fork를 안써도 사실 문제없이 돌아감.)

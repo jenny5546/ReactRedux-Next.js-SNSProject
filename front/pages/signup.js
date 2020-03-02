@@ -1,11 +1,12 @@
+/* eslint-disable react/jsx-filename-extension */
 import React, { useState, useCallback } from 'react';
 import { Form, Input, Checkbox, Button } from 'antd';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { signUpAction } from '../reducers/user';
 
-//같은 component에 있으면 id만 input을 바꿔도 모든 폼 부분이 리렌더링 된다. 
-//서로 input 간에 Rerendering 막기 최적화 할수는 있지만 (좀 과하다, 너무시간 오래걸려)
+// 같은 component에 있으면 id만 input을 바꿔도 모든 폼 부분이 리렌더링 된다. 
+// 서로 input 간에 Rerendering 막기 최적화 할수는 있지만 (좀 과하다, 너무시간 오래걸려)
 // const TextInput = ({ value }) => {
 //   return (
 //     <div>{value}</div>
@@ -17,8 +18,8 @@ import { signUpAction } from '../reducers/user';
 // };
 
 
-//form 같은애들은 react state 쓰는게 편하고!!
-//여러 컴포넌트가 같이 쓰는 애들, submit 누르면 redux state로 한방에 처리해주는 걸로 보통 쓴다. **
+// form 같은애들은 react state 쓰는게 편하고!!
+// 여러 컴포넌트가 같이 쓰는 애들, submit 누르면 redux state로 한방에 처리해주는 걸로 보통 쓴다. **
 
 export const useInput = (initValue = null) => {
   const [value, setter] = useState(initValue);
@@ -40,7 +41,7 @@ const Signup = () => {
   const [password, onChangePassword] = useInput('');
   const dispatch = useDispatch();
 
-  //USECALLBACK 함수 ****
+  // USECALLBACK 함수 ****
   const onSubmit = useCallback((e) => {
     e.preventDefault();
     if (password !== passwordCheck) {
@@ -54,7 +55,7 @@ const Signup = () => {
       password,
       nick,
     }));
-  }, [password, passwordCheck, term]); //함수 내부에서 쓰는 state 를 deps 배열로 넣기.
+  }, [password, passwordCheck, term]); // 함수 내부에서 쓰는 state 를 deps 배열로 넣기.
 
 
 

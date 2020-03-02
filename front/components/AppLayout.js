@@ -1,11 +1,10 @@
 import React from 'react';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
 import { Col, Input, Menu, Row } from 'antd';
+import { useSelector } from 'react-redux';
 import LoginForm from './LoginForm';
 import UserProfile from './UserProfile';
-
 
 const AppLayout = ({ children }) => {
   const { isLoggedIn } = useSelector(state => state.user);
@@ -18,15 +17,13 @@ const AppLayout = ({ children }) => {
           <Input.Search enterButton style={{ verticalAlign: 'middle' }} />
         </Menu.Item>
       </Menu>
-      <Row gutter={8}> {/* row 간 간격 = gutter */}
-      {/* 로그인이 되어있으면, userprofile, 아니면 form 삼항연산자 */}
-      {/* xs: mobile md: desktop */}
-        <Col xs={24} md={6}> 
+      <Row gutter={8}>
+        <Col xs={24} md={6}>
           {isLoggedIn
             ? <UserProfile />
-            : <LoginForm />}  
+            : <LoginForm />}
         </Col>
-        <Col xs={24} md={12}> 
+        <Col xs={24} md={12}>
           {children}
         </Col>
         <Col xs={24} md={6}>
@@ -38,8 +35,7 @@ const AppLayout = ({ children }) => {
 };
 
 AppLayout.propTypes = {
-  children: PropTypes.node, //rendering 될 수 있는 부분은 node. 
+  children: PropTypes.node,
 };
-
 
 export default AppLayout;
