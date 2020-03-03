@@ -26,3 +26,23 @@ npm 에서 남들이 만들어 놓은 패키지를 갖고오자.
 13. npm i sequelize sequelize-cli (db로 mysql을 쓰는데 가장 기본적인 crud를 할 때 postgre, oracle써도 다 똑같은데 sql대신에 sequelize을 쓴다.)
 -> sequelize: ORM(SQL문이랑 javascript를 연결해주는 것) 자바스크립트로 sql을 조작할 수 있게 해준다. 
 14. npm i -D eslint eslint-config-airbnb
+15. npm i -D eslint-plugin-jsx-a11y 
+16. npm i -D nodemon : 서버 바뀔 때마다 알아서 재부팅 
+
+### nodemon 알아보기 
+django로 개발을 했을 때 알아서 재부팅이 안돼서 매우매우매우 귀찮았다. 그런데 Node로 개발을 하면 코드를 건드려서 무언가가 달라졌을 때 그거를 감지하고 재부팅을 알아서 해주는 패키지가 바로 nodemon이다. 
+
+nodemodules라는 디렉토리랑 같은 위치에 nodemon.json을 만들어서 아래의 코드를 넣어주면 된다. 
+
+    {
+        "watch":[ -> 이 리스트 안에 있는 파일들을 관찰해서 만약 변화가 감지되면 
+            "index.js",
+            "routes",
+            "config",
+            "passport",
+            "models",
+            "nodemon.json"
+        ],
+        "exec": "node index.js", -> index.js를 다시 실행한다는 뜻.
+        "ext": "js json"
+    }
