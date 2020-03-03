@@ -59,11 +59,13 @@ nodemodules라는 디렉토리랑 같은 위치에 nodemon.json을 만들어서 
 
 페이지에 접속, 새로고침 하는 것은 다 GET이라고 볼 수 있다. 그래서 
 
-    ```javascript
-    app.get('/', (req,res)=> {
-        res.send('Hello, server');
-    }
-    app.get('/about', (req,res)=> {
-        res.send('Hello, about');
-    }
-    ```
+```javascript
+
+app.get('/', (req,res)=> {
+    res.send('Hello, server');
+}
+app.get('/about', (req,res)=> {
+    res.send('Hello, about');
+}
+
+```
