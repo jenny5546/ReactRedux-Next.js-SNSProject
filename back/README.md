@@ -28,6 +28,7 @@ npm 에서 남들이 만들어 놓은 패키지를 갖고오자.
 14. npm i -D eslint eslint-config-airbnb
 15. npm i -D eslint-plugin-jsx-a11y 
 16. npm i -D nodemon : 서버 바뀔 때마다 알아서 재부팅 
+17. npm i -g sequelize-cli : g를 붙이면 명령어로 sequelize어쩌고 이렇게 할 수 있게됨.
 
 ### nodemon 알아보기 
 django로 개발을 했을 때 알아서 재부팅이 안돼서 매우매우매우 귀찮았다. 그런데 Node로 개발을 하면 코드를 건드려서 무언가가 달라졌을 때 그거를 감지하고 재부팅을 알아서 해주는 패키지가 바로 nodemon이다. 
@@ -69,3 +70,114 @@ app.get('/about', (req,res)=> {
 }
 
 ```
+
+### sequelizer 쓰기 
+
+> sql문을 안쓰고 자바스크립트로 db를 컨트롤 하기 위해서 쓴다고 했던 시퀄라이저를 쓰자
+
+`npm i -g sequelize-cli` 를 치고 ,
+`sequelize init`을 하면 config라는 폴더에 config.json이랑 model이라는 폴더에 index.js가 생긴다. 
+
+```javascript
+    const Sequelize = require('sequelize');
+    const env = process.env.NODE_ENV || 'development';
+    const config = require('../config/config')[env];
+    const db = {};
+
+    const sequelize = new Sequelize(config.database, config.username, config.password, config);
+```
+그리고 model이라는 폴더에 'table'을 만들어야한다. 
+
+여기 같은 경우는 comment, hashtag, image, user, post, image (그냥 장고에서 모델 만들었던 거랑 똑같다고 생각하면 된다~)
+
+DB설계 시에는 ERD를 그려보면 좋겠다. Entity Relationship Diagram
+
+> ERD는 이런 model의 필드, 모델 사이의 관계 (1:n, m:n) 를 간단하게 표현한.
+
+NODE의 패턴 분석하기 (장고랑 비슷한데 장고가 더 쉽당)
+
+```javascript
+const User = sequelize.define('User', { // 테이블명은 users
+      nickname: {
+        type: DataTypes.STRING(20), // 20글자 이하
+        allowNull: false, // 필수
+      },
+      userId: {
+        type: DataTypes.STRING(20),
+        allowNull: false,
+        unique: true, // 고유한 값
+      },
+      password: {
+        type: DataTypes.STRING(100), // 100글자 이하
+        allowNull: false,
+      },
+    }, {
+      charset: 'utf8',
+      collate: 'utf8_general_ci', // 한글이 저장돼요
+    });
+```
+
+```python
+class User: 
+    nickname = models.CharField() # 이런 식으로 했던 거랑 똑같다!!!!
+```
+
+```javascript
+User.associate = (db) => {
+      db.User.hasMany(db.Post, { as: 'Posts' });
+      db.User.hasMany(db.Comment);
+      db.User.belongsToMany(db.Post, { through: 'Like', as: 'Liked' });
+      db.User.belongsToMany(db.User, { through: 'Follow', as: 'Followers', foreignKey: 'followingId' });
+      db.User.belongsToMany(db.User, { through: 'Follow', as: 'Followings', foreignKey: 'followerId' });
+};
+```
+-> 관계들은 이런식으로 써준다. (ManytoMany, Foreignkey, 이렇게 말고!!!)
+
+m:n관계는 belongsToMany로 표현 근데, 특성상 다대다는 중간에 table이 생긴다. 
+post-hashtag라는 table이 생김. 그 table 이름을 through 'Like' , 'Hashtag'이런식으로 이름을 짓는다. 
+그리고 연결해준 양쪽에다 같은걸 써줘야한다는 것. 
+
+> image라는 모델은 왜 두나. ondemand를 만들때도 내가 Image라는 모델을 하나 더 만들었는데 최신 db에서는 arrayfield도 지원이 가능한데 그래도 원칙적으로는 image모델을 하나 만들어서 연결하는게 더 좋다(나중에 통계내는데 문제가 될 수도 있다고 한다.) 
+
+`db.Post.belongsTo(db.Post, { as: 'Retweet' }); // RetweetId 컬럼 생겨`
+이름이 똑같으니까 as라는 애를 추가해서 새로운 칼럼을 만들어준다!! 
+
+- as: 서로 중복되거나 관계가 불분명해질때는 꼭 적어주자 (as라는 이름으로 값을 가져옴)
+ex) through도 같을때 follower, following 이런식으로 추가 
+- through는 다대다 관계 중간 table 명 
+
+> 정리 ) through는 중간 테이블명, as는 가지고올때의 이름 
+
+> tip: belongsToMany는 다 as를 달아주는게 좋다. as를 넣으면 사용자 정보를 가져올때, Liked에 [{게시글1},{게시글2},..]이런식으로 사용자 입장에서 가져올 수 있는 필드 이름을 설정해주는 과정이다. 데이터를 가져올때도 중요하다는 것!! as를 기준으로 가져온다는 것이다!!
+
+-> 그냥 mysql 을 쓰면 mysql.query('SELECT * FROM User WHERE')... 등등 
+실무에서는 너무 어렵기때문에 sequelize를 쓰는거를 추천. knex도 자바스크립트로 편하게 mysql만들어줌. 코드 관리 진짜잘할자신없으면 sequelize를 씁시다.
+
+결국은 knex나 sequelize를 써야함.  
+
+
+그렇게 모델을 다 만들어준 후, model/index.js에 다 연결을 해준다. 코드를 다 썼던 것을 바탕으로, sql문으로 다 바꿔줌. 
+
+models/index.js에서 
+```javascript
+db.Comment = require('./comment')(sequelize, Sequelize);
+db.Hashtag = require('./hashtag')(sequelize, Sequelize);
+db.Image = require('./image')(sequelize, Sequelize);
+db.Post = require('./post')(sequelize, Sequelize);
+db.User = require('./user')(sequelize, Sequelize);
+db.sequelize = sequelize;
+db.Sequelize = Sequelize;
+``` 
+이렇게 나머지 애들을 다 연결해준다. 
+
+그리고 그냥 index.js에다가 
+
+```javascript
+const db = require('./models');
+db.sequelize.sync();
+``` 
+이렇게 해주면 알아서 테이블을 생성해준다!!! 
+
+```javascript
+
+``` 

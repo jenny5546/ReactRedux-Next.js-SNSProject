@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
     const Post = sequelize.define('Post', { // 테이블명은 posts
       content: {
-        type: DataTypes.TEXT, // 매우 긴 글
+        type: DataTypes.TEXT, // 매우 긴 글 몇 글자 될지 모를때 주로 text로
         allowNull: false,
       },
     }, {

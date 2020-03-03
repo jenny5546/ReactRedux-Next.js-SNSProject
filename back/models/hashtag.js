@@ -10,6 +10,6 @@ module.exports = (sequelize, DataTypes) => {
     });
     Hashtag.associate = (db) => {
       db.Hashtag.belongsToMany(db.Post, { through: 'PostHashtag' });
-    };
+    };//다대다 관계, m:n 관계 는 belongsToMany **라는 애를 쓴다. 
     return Hashtag;
 };
