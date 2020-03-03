@@ -46,3 +46,24 @@ nodemodules라는 디렉토리랑 같은 위치에 nodemon.json을 만들어서 
         "exec": "node index.js", -> index.js를 다시 실행한다는 뜻.
         "ext": "js json"
     }
+
+### HTTP REQUEST 정리하기
+이미 장고 개발을 하면서 많이 해서 알지만 다시 정리. 
+    1. GET: 갖고오기
+    2. POST: 생성하기
+    3. PUT: 전체 수정 
+    4. PATCH: 부분 수정 
+    5. DELETE: 삭제하기 
+
+> 참고로 http 뒤에는 80이 숨어져있는 거. https 에는 443이라는 포트가 숨겨져 있다.
+
+페이지에 접속, 새로고침 하는 것은 다 GET이라고 볼 수 있다. 그래서 
+
+    ```javascript
+    app.get('/', (req,res)=> {
+        res.send('Hello, server');
+    }
+    app.get('/about', (req,res)=> {
+        res.send('Hello, about');
+    }
+    ```
