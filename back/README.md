@@ -146,6 +146,7 @@ post-hashtag라는 table이 생김. 그 table 이름을 through 'Like' , 'Hashta
 - as: 서로 중복되거나 관계가 불분명해질때는 꼭 적어주자 (as라는 이름으로 값을 가져옴)
 ex) through도 같을때 follower, following 이런식으로 추가 
 - through는 다대다 관계 중간 table 명 
+-foreignkey: 다대다 관계에서 디비에서 찾을 때 (이름은 반대로)
 
 > 정리 ) through는 중간 테이블명, as는 가지고올때의 이름 
 
@@ -192,3 +193,23 @@ routes라는 폴더로 긴 api.get/post 이런거를 따로 관리하자!!
 ### 로그인되어있는지 없는지 확인? = 쿠키,세션
 
 > 사용자 정보는 서버의 세션에, 프론트에는 세션을 조회할 수 있는 쿠키를 전달한다. 
+
+### Passport: 현재 로그인한 사용자가 누군지, 쿠키세션을 프론트,백에 각각 자동으로 보내주는 역할을 하는 애! 
+
+> 참고로 미들웨어를 쓸 때, 순서가 중요하다. 
+
+쿠키-세션으로 로그인하는 방법:
+
+cookie: httpOnly, secure: true 로 하면 털릴일이 없다 안전하다!!
+프론트에서 서버로는 cookie만 보낸다. 
+서버가 쿠키파서, 익스프렌스 세션으로 쿠키 검사 후 id:3발견. 
+그다음 deserializeUser를 실행. id:3이 들어감.
+그러면 req.user로 사용자 정보가 들어간다.
+요청 보낼때마다 deserializeUser가 실행된다. 
+실무에서는 deserializeUser 결과물 캐싱
+
+Login Flow: 
+router에서 user/login 로그인을 하면- 이부분에서 일단 localstategy(local.js)를 실행,
+로그인을 하면 (req.login하면) passport/index.js에서의 함수 serializeUser가 실행 (쿠키 프론트), deserializeUser가 그 쿠키를 가지고 디비로 가져가서 맞는 유저를 찾아줌. 
+
+> 알아서 다 해줬던 django와는 달리 로그인 로그아웃이라는 기능 자체를 직접 구현해보니 참 어렵다!

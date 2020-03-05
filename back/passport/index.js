@@ -3,10 +3,11 @@ const db = require('../models');
 const local = require('./local');
 
 module.exports = () => {
+  //로그인할때, 최소화 id만!!
   passport.serializeUser((user, done) => { // 서버쪽에 [{ id: 3, cookie: 'asdfgh' }]
     return done(null, user.id);
   });
-
+  //회원정보, 로그인 정보를 저장 
   passport.deserializeUser(async (id, done) => {
     try {
       const user = await db.User.findOne({

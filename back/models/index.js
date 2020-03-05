@@ -11,6 +11,7 @@ db.Image = require('./image')(sequelize, Sequelize);
 db.Post = require('./post')(sequelize, Sequelize);
 db.User = require('./user')(sequelize, Sequelize);
 
+//로그인할때 나와 관련된 모든걸 갖고와줌. 연결관계. (sql에서는 join)
 Object.keys(db).forEach(modelName => {
   if (db[modelName].associate) {
     db[modelName].associate(db);

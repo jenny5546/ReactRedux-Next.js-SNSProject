@@ -63,6 +63,7 @@ router.post('/login', (req, res, next) => { // POST /api/user/login
     if (info) {
       return res.status(401).send(info.reason);
     }
+    //login 성공-> passport serialize User 실행
     return req.login(user, async (loginErr) => {
       try {
         if (loginErr) {

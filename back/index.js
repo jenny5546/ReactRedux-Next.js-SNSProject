@@ -42,6 +42,7 @@ app.use(expressSession({
   },
   name: 'rnbck',
 }));
+//express session보다 뒤에 넣어줘야한다. 
 app.use(passport.initialize());
 app.use(passport.session());
 

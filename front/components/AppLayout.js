@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
 import { Col, Input, Menu, Row } from 'antd';
@@ -8,6 +8,13 @@ import UserProfile from './UserProfile';
 
 const AppLayout = ({ children }) => {
   const { isLoggedIn } = useSelector(state => state.user);
+  const dispatch =useDispatch();
+
+  useEffect(()=>{
+    if(!me){
+      
+    }
+  },[]);
   return (
     <div>
       <Menu mode="horizontal">

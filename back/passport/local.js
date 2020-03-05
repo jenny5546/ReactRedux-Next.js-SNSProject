@@ -3,6 +3,7 @@ const { Strategy: LocalStrategy } = require('passport-local');
 const bcrypt = require('bcrypt');
 const db = require('../models');
 
+//로그인하려고 할때 사용자가 있는지 확인, 있다면 비밀번호가 일치하는지 확인
 module.exports = () => {
   passport.use(new LocalStrategy({
     usernameField: 'userId',

@@ -25,6 +25,8 @@ module.exports = (sequelize, DataTypes) => {
       db.User.belongsToMany(db.User, { through: 'Follow', as: 'Followers', foreignKey: 'followingId' });
       db.User.belongsToMany(db.User, { through: 'Follow', as: 'Followings', foreignKey: 'followerId' });
     };
+    //디비에서 foreignKey를 통해 *** as는 프론트에서 사용
+    //반대로쓰는 포린키가 남의 테이블 아이디를 가리키기 위해 사용
   
     return User;
 };
